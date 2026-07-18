@@ -8,10 +8,9 @@ let history=[];
 let savedReports=[];
 let currentReport = null;
 let currentReportId = null;
-if(!localStorage.getItem("token")){
 
-window.location="login.html";
-
+if (!localStorage.getItem("token")) {
+    window.location.replace("login.html");
 }
 //Homepage rendering
 function renderHome(){
@@ -198,36 +197,32 @@ function renderEvaluate(){
 
                     </div>
                     <button
-id="saveReportButton" onclick="saveReport()" style="display:none;">Save Report
+id="saveReportButton" onclick="saveReport(currentReportId)" style="display:none;">Save Report
 </button>
 
                 </div>
 `
     }
-    async function saveReport(){
+    async function saveReport(id){
 
-const response = await fetch(
+    currentReportId = id;
 
-    `https://ai-project-evaluator-gqe8.onrender.com/save/${currentReportId}`,
-
-    {
-
-        method:"POST",
-
-        headers:{
-            "Authorization":
-            "Bearer " + localStorage.getItem("token")
+    const response = await fetch(
+        `https://ai-project-evaluator-gqe8.onrender.com/save/${id}`,
+        {
+            method:"POST",
+            headers:{
+                "Authorization":"Bearer " + localStorage.getItem("token")
+            }
         }
+    );
 
-    }
+    const result = await response.json();
 
-);
-
-const result = await response.json();
-
-alert(result.message);
+    alert(result.message);
 
 }
+
     //History rendering
     async function renderHistory() {
 

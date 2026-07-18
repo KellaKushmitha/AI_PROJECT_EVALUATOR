@@ -14,7 +14,7 @@ return;
 
 }
 
-const response=await fetch("http://127.0.0.1:5000/register",{
+const response=await fetch("https://ai-project-evaluator-gqe8.onrender.com/register",{
 
 method:"POST",
 
