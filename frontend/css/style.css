@@ -1,0 +1,590 @@
+/* =====================================
+   AI PROJECT EVALUATOR — "EXAMINER'S DESK"
+   A report sits on a lamp-lit desk: paper
+   cards, red-pen scoring, a rubber-stamp
+   verdict for the overall grade.
+===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root{
+    /* -- desk (page) -- */
+    --desk:        #11172a;
+    --desk-deep:   #0a0e1a;
+    --desk-edge:   #1f2a4a;
+
+    /* -- paper (cards) -- */
+    --paper:       #f7f2e5;
+    --paper-dim:   #efe8d6;
+    --paper-line:  #e2d8bc;
+
+    /* -- ink -- */
+    --ink:         #232a3d;
+    --ink-soft:    #6b6455;
+    --ink-faint:   #9a927e;
+
+    /* -- pen accents -- */
+    --red-pen:     #c23b2f;
+    --red-pen-dk:  #9c2e24;
+    --green-stamp: #2f7a52;
+    --green-dk:    #205a3c;
+    --gold:        #c9a03d;
+
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --ease: cubic-bezier(.22,.68,.35,1);
+}
+
+@media (prefers-reduced-motion: reduce){
+    *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+}
+
+/* =====================================
+   GLOBAL RESET
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Manrope','Segoe UI',Arial,sans-serif;
+    color:var(--ink);
+    background:
+        radial-gradient(circle at 15% 0%, rgba(201,160,61,.10), transparent 45%),
+        radial-gradient(circle at 85% 100%, rgba(47,122,82,.10), transparent 45%),
+        var(--desk);
+    background-attachment:fixed;
+}
+
+/* =====================================
+   DASHBOARD LAYOUT
+===================================== */
+
+.dashboard{
+    display:flex;
+    min-height:100vh;
+}
+
+/* =====================================
+   SIDEBAR — folder index
+===================================== */
+
+.sidebar{
+    width:270px;
+    min-height:100vh;
+    padding:32px 18px;
+    background:
+        linear-gradient(180deg, var(--desk-deep), var(--desk-edge));
+    color:#e9e4d6;
+    box-shadow:8px 0 30px rgba(0,0,0,.35);
+    position:relative;
+    border-right:1px solid rgba(201,160,61,.18);
+}
+
+.sidebar::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:repeating-linear-gradient(
+        180deg,
+        rgba(255,255,255,.02) 0px,
+        rgba(255,255,255,.02) 1px,
+        transparent 1px,
+        transparent 34px
+    );
+    pointer-events:none;
+}
+
+/* LOGO */
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:40px;
+    padding-bottom:22px;
+    border-bottom:1px dashed rgba(201,160,61,.35);
+}
+
+.logo-circle{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    background:var(--paper);
+    border:2px solid var(--gold);
+    box-shadow:0 0 0 4px rgba(201,160,61,.12), 0 10px 22px rgba(0,0,0,.4);
+}
+
+.logo h2{
+    font-family:'Fraunces',serif;
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:.2px;
+    color:#f3ecd8;
+}
+
+/* MENU */
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:14px 16px;
+    margin-bottom:8px;
+    border-radius:10px;
+    cursor:pointer;
+    color:#cbc4b0;
+    font-weight:500;
+    font-size:14.5px;
+    letter-spacing:.2px;
+    position:relative;
+    border-left:3px solid transparent;
+    transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease), padding-left .3s var(--ease);
+}
+
+.sidebar li i{
+    width:18px;
+    color:var(--gold);
+    transition:transform .3s var(--ease);
+}
+
+.sidebar li:hover{
+    background:rgba(201,160,61,.10);
+    color:#f7f2e5;
+    border-left-color:var(--gold);
+    padding-left:20px;
+}
+
+.sidebar li:hover i{
+    transform:scale(1.1) rotate(-4deg);
+}
+
+/* LOGOUT */
+
+#logout{
+    margin-top:26px;
+    background:rgba(194,59,47,.12);
+    color:#f0b9b2;
+    border-left:3px solid transparent;
+    justify-content:center;
+    font-weight:600;
+}
+
+#logout:hover{
+    background:var(--red-pen);
+    color:#fff;
+    border-left-color:var(--red-pen-dk);
+    padding-left:16px;
+}
+
+/* =====================================
+   MAIN — the desk surface
+===================================== */
+
+.main{
+    flex:1;
+    padding:38px 48px;
+    min-height:100vh;
+}
+
+header{
+    margin-bottom:28px;
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+}
+
+header h1{
+    font-family:'Fraunces',serif;
+    font-size:32px;
+    font-weight:600;
+    color:#f3ecd8;
+    letter-spacing:.2px;
+}
+
+header h1::after{
+    content:"";
+}
+
+/* =====================================
+   CONTENT
+===================================== */
+
+.content{
+    width:100%;
+}
+
+/* =====================================
+   CARDS — sheets of paper
+===================================== */
+
+.card{
+    background:var(--paper);
+    color:var(--ink);
+    padding:30px 32px;
+    border-radius:var(--radius-lg);
+    margin-bottom:24px;
+    position:relative;
+    border:1px solid var(--paper-line);
+    box-shadow:0 16px 40px rgba(0,0,0,.35), 0 2px 0 rgba(0,0,0,.04) inset;
+    transition:transform .35s var(--ease), box-shadow .35s var(--ease);
+    animation:paper-in .5s var(--ease) both;
+}
+
+/* red margin rule, like a ruled exam sheet */
+.card::before{
+    content:"";
+    position:absolute;
+    left:20px;
+    top:18px;
+    bottom:18px;
+    width:1px;
+    background:rgba(194,59,47,.18);
+}
+
+.card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 22px 50px rgba(0,0,0,.4), 0 2px 0 rgba(0,0,0,.04) inset;
+}
+
+.card h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:22px;
+    padding-left:14px;
+}
+
+/* =====================================
+   FORMS
+===================================== */
+
+label{
+    display:block;
+    font-weight:600;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:.6px;
+    margin-bottom:8px;
+    color:var(--ink-soft);
+    padding-left:14px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    padding:14px 18px;
+    margin-bottom:18px;
+    margin-left:0;
+    border-radius:10px;
+    border:1px solid var(--paper-line);
+    background:#fffdf7;
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    font-size:15px;
+    transition:border-color .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+}
+
+input::placeholder,
+textarea::placeholder{
+    color:var(--ink-faint);
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    outline:none;
+    background:#fff;
+    border-color:var(--red-pen);
+    box-shadow:0 0 0 4px rgba(194,59,47,.12);
+}
+
+textarea{
+    height:120px;
+    resize:none;
+}
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:6px;
+    border:none;
+    border-radius:11px;
+    cursor:pointer;
+    color:#fff8ec;
+    font-family:'Manrope',sans-serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.3px;
+    background:linear-gradient(135deg, var(--red-pen), var(--red-pen-dk));
+    box-shadow:0 10px 24px rgba(194,59,47,.28);
+    transition:transform .25s var(--ease), box-shadow .25s var(--ease), filter .25s var(--ease);
+    position:relative;
+    overflow:hidden;
+}
+
+button::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.35), transparent 60%);
+    opacity:0;
+    transition:opacity .4s var(--ease);
+}
+
+button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 32px rgba(194,59,47,.4);
+    filter:brightness(1.03);
+}
+
+button:hover::after{
+    opacity:1;
+}
+
+button:active{
+    transform:translateY(-1px) scale(.99);
+}
+
+/* SAVE BUTTON — the "approved" stamp */
+
+#saveReportButton{
+    background:linear-gradient(135deg, var(--green-stamp), var(--green-dk));
+    box-shadow:0 10px 24px rgba(47,122,82,.3);
+}
+
+#saveReportButton:hover{
+    box-shadow:0 16px 32px rgba(47,122,82,.42);
+}
+
+/* =====================================
+   EVALUATION PAGE
+===================================== */
+
+.left-panel{
+    width:38%;
+    float:left;
+    height:82vh;
+    overflow-y:auto;
+    padding-right:4px;
+}
+
+.right-panel{
+    width:60%;
+    float:right;
+    height:82vh;
+    overflow-y:auto;
+    padding-right:4px;
+}
+
+/* =====================================
+   SCORE CARDS — grade tiles
+===================================== */
+
+.scores{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px;
+    margin-bottom:8px;
+}
+
+.score-card{
+    position:relative;
+    overflow:hidden;
+    padding:22px 18px;
+    text-align:center;
+    border-radius:16px;
+    background:var(--paper-dim);
+    border:1px solid var(--paper-line);
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+}
+
+.score-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 14px 30px rgba(0,0,0,.18);
+}
+
+.score-card h4{
+    color:var(--ink-soft);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+    font-weight:700;
+}
+
+.score-card h1{
+    margin-top:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:32px;
+    font-weight:700;
+    color:var(--red-pen);
+}
+
+/* the overall score gets the rubber-stamp treatment */
+.score-card:has(#overall){
+    background:transparent;
+    border:2px dashed var(--green-stamp);
+    transform:rotate(-3deg);
+    animation:stamp-in .5s .15s var(--ease) both;
+}
+
+.score-card:has(#overall) h4{
+    color:var(--green-dk);
+}
+
+.score-card:has(#overall) h1{
+    color:var(--green-stamp);
+    font-family:'Fraunces',serif;
+    letter-spacing:.5px;
+}
+
+.score-card:has(#overall):hover{
+    transform:rotate(-3deg) translateY(-5px) scale(1.03);
+}
+
+/* =====================================
+   RESULT — annotations in red pen
+===================================== */
+
+.result-card{
+    padding:20px 22px;
+    margin-bottom:16px;
+    border-radius:12px;
+    background:var(--paper-dim);
+    border-left:4px solid var(--red-pen);
+}
+
+.result-card h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:10px;
+    font-size:17px;
+}
+
+.result-card li{
+    margin-bottom:8px;
+    margin-left:18px;
+    line-height:1.6;
+    color:var(--ink);
+}
+
+.result-card p{
+    line-height:1.65;
+    color:var(--ink);
+}
+
+/* =====================================
+   HISTORY / SAVED REPORT
+===================================== */
+
+.content .card{
+    max-width:950px;
+}
+
+/* =====================================
+   LOGIN / REGISTER
+===================================== */
+
+.main .card{
+    animation:paper-in .55s var(--ease) both;
+}
+
+/* =====================================
+   KEYFRAMES
+===================================== */
+
+@keyframes paper-in{
+    from{
+        opacity:0;
+        transform:translateY(18px) rotate(-.4deg);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+@keyframes stamp-in{
+    0%{
+        opacity:0;
+        transform:rotate(-3deg) scale(1.6);
+    }
+    60%{
+        opacity:1;
+        transform:rotate(-3deg) scale(.94);
+    }
+    100%{
+        opacity:1;
+        transform:rotate(-3deg) scale(1);
+    }
+}
+
+/* =====================================
+   SCROLLBAR
+===================================== */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:var(--gold);
+    border-radius:20px;
+}
+
+::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+@media(max-width:1000px){
+    .dashboard{
+        flex-direction:column;
+    }
+    .sidebar{
+        width:100%;
+        min-height:auto;
+    }
+    .left-panel,
+    .right-panel{
+        width:100%;
+        float:none;
+        height:auto;
+        max-height:60vh;
+    }
+    .main{
+        padding:22px;
+    }
+}
+
+@media(max-width:650px){
+    .scores{
+        grid-template-columns:1fr;
+    }
+    header h1{
+        font-size:24px;
+    }
+    .card{
+        padding:22px 20px;
+    }
+}

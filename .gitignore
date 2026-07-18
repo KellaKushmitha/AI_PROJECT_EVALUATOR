@@ -1,0 +1,19 @@
+# Python
+.venv/
+myenv/
+venv/
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Database
+instance/
+*.db
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
