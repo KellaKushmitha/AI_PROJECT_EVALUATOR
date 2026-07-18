@@ -208,7 +208,7 @@ id="saveReportButton" onclick="saveReport()" style="display:none;">Save Report
 
 const response = await fetch(
 
-    `http://127.0.0.1:5000/save/${currentReportId}`,
+    `https://ai-project-evaluator-gqe8.onrender.com/save/${currentReportId}`,
 
     {
 
@@ -232,7 +232,7 @@ alert(result.message);
     async function renderHistory() {
 
    const response = await fetch(
-"http://127.0.0.1:5000/history",
+"https://ai-project-evaluator-gqe8.onrender.com/history",
 {
 headers:{
 "Authorization":
@@ -291,7 +291,7 @@ headers:{
 async function renderSavedReports(){
 
     const response=await fetch(
-"http://127.0.0.1:5000/saved",
+"https://ai-project-evaluator-gqe8.onrender.com/saved",
 {
 headers:{
 "Authorization":
@@ -512,7 +512,7 @@ async function evaluateProject() {
     try {
 console.log("Evaluate button clicked");
         const response = await fetch(
-            "http://127.0.0.1:5000/evaluate",
+            "https://ai-project-evaluator-gqe8.onrender.com/evaluate",
             {
                 method: "POST",
 
